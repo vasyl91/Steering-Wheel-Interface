@@ -4,6 +4,7 @@ import com.theksmith.steeringwheelinterface.ElmInterface.DeviceOpenEvent;
 import com.theksmith.steeringwheelinterface.ElmInterface.DeviceOpenEventListener;
 import com.theksmith.steeringwheelinterface.R;
 
+import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -36,7 +37,7 @@ public class SteeringWheelInterfaceService extends Service {
 	protected final Handler watchdog_Timer = new Handler();
 	
 	protected NotificationManager mNoticeManager;
-	protected final Builder mNoticeBuilder = new Builder(this);		
+	private Notification.Builder mNoticeBuilder;
 	protected int mNoticeID;
 	
 	protected ElmInterface mCarInterface;
@@ -92,6 +93,10 @@ public class SteeringWheelInterfaceService extends Service {
 	
 	@Override
 	public void onCreate() {
+	    super.onCreate();
+
+        mNoticeBuilder = new Notification.Builder(this);
+		
 		IntentFilter filterUsbDetached = new IntentFilter(UsbManager.ACTION_USB_DEVICE_DETACHED);
 		registerReceiver(mUsbDetachedReceiver, filterUsbDetached);
 
